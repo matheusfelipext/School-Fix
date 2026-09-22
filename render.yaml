@@ -1,0 +1,26 @@
+# Blueprint do Render: em https://dashboard.render.com → New → Blueprint → escolha este repositório.
+# As variáveis marcadas sync: false você preenche na tela do Render (segredos não vão no Git).
+services:
+  - type: web
+    name: schoolfix-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app --bind 0.0.0.0:$PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: FIRESTORE_DATABASE
+        value: dbschoolfix
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: FIREBASE_CREDENTIALS_JSON
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false

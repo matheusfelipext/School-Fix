@@ -1,0 +1,3 @@
+# Configuração do Netlify (o site é estático; nada para compilar)
+[build]
+  publish = "."

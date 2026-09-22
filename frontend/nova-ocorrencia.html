@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SchoolFix — Nova Ocorrência</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- tema.js vai no <head> para aplicar o modo escuro antes da página pintar -->
+    <script src="js/tema.js"></script>
+  </head>
+  <body>
+    <div class="aplicacao">
+      <aside class="barra-lateral">
+        <div class="marca">
+          <div class="marca-icone">SF</div>
+          <span class="marca-nome">SchoolFix</span>
+        </div>
+        <!-- A classe "active" e a visibilidade por perfil são definidas em api.js -->
+        <nav class="menu">
+          <a class="menu-item" href="index.html"><i class="ti ti-home"></i>Início</a>
+          <a class="menu-item" href="reclamacoes.html"><i class="ti ti-list"></i>Todas Reclamações</a>
+          <a class="menu-item menu-item-destaque" href="nova-ocorrencia.html"><i class="ti ti-plus"></i>Nova Ocorrência</a>
+          <a class="menu-item" href="chat.html"><i class="ti ti-message-2"></i>Chat Geral</a>
+          <a class="menu-item" href="mensagens.html"><i class="ti ti-mail"></i>Mensagens Diretas</a>
+          <a class="menu-item" href="relatorios.html"><i class="ti ti-chart-bar"></i>Relatórios</a>
+          <a class="menu-item" href="usuarios.html"><i class="ti ti-users"></i>Usuários</a>
+          <a class="menu-item" href="configuracoes.html"><i class="ti ti-settings"></i>Configurações</a>
+        </nav>
+      </aside>
+
+      <div class="principal">
+        <header class="cabecalho">
+          <div class="cabecalho-escola"><i class="ti ti-school"></i> <span id="cabecalho-escola">SchoolFix</span></div>
+          <div class="cabecalho-direita">
+            <div class="notificacoes">
+              <button type="button" class="botao-icone" id="notificacoes-botao" title="Notificações">
+                <i class="ti ti-bell"></i>
+                <span class="notificacoes-contador" id="notificacoes-contador" style="display:none">0</span>
+              </button>
+              <div class="notificacoes-painel" id="notificacoes-painel" style="display:none"></div>
+            </div>
+            <div class="cabecalho-divisor"></div>
+            <div class="usuario-perfil">
+              <div class="avatar" id="cabecalho-avatar">?</div>
+              <div class="usuario-info">
+                <p class="nome" id="cabecalho-nome">Carregando...</p>
+                <p class="cargo" id="cabecalho-cargo">—</p>
+              </div>
+              <button type="button" class="botao-icone" title="Sair" onclick="logout()"><i class="ti ti-logout"></i></button>
+            </div>
+          </div>
+        </header>
+
+        <div class="conteudo">
+
+          <div class="cartao" style="max-width: 680px; margin: 0 auto">
+            <div class="formulario-cabecalho">
+              <h2>Cadastrar Nova Ocorrência</h2>
+              <p>Preencha os detalhes do problema para registrar o chamado no sistema.</p>
+            </div>
+
+            <form id="formulario-nova-ocorrencia">
+              <div class="campo-grupo">
+                <label class="campo-rotulo" for="ocorrencia-titulo"><i class="ti ti-edit"></i> Título / Problema</label>
+                <input type="text" id="ocorrencia-titulo" class="campo-controle" placeholder="Ex: Ar-condicionado com defeito na Sala 04" required minlength="3" />
+              </div>
+
+              <div class="campo-grade-2">
+                <div class="campo-grupo">
+                  <label class="campo-rotulo" for="categoria">Categoria</label>
+                  <select id="categoria" class="campo-controle">
+                    <option value="Infraestrutura">Infraestrutura</option>
+                    <option value="Limpeza">Limpeza</option>
+                    <option value="Convivência">Convivência</option>
+                    <option value="Pedagógico">Pedagógico</option>
+                    <option value="Alimentação">Alimentação</option>
+                    <option value="Segurança">Segurança</option>
+                    <option value="TI">TI</option>
+                    <option value="Outros">Outros</option>
+                  </select>
+                </div>
+                <div class="campo-grupo">
+                  <label class="campo-rotulo" for="prioridade">Prioridade</label>
+                  <!-- Os "value" ficam em minúsculo exatamente como a API espera -->
+                  <select id="prioridade" class="campo-controle">
+                    <option value="baixa">Baixa</option>
+                    <option value="media" selected>Média</option>
+                    <option value="alta">Alta</option>
+                    <option value="urgente">Urgente 🚨</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="campo-grupo">
+                <label class="campo-rotulo" for="ocorrencia-descricao"><i class="ti ti-file-text"></i> Descrição do Ocorrido</label>
+                <textarea id="ocorrencia-descricao" class="campo-controle" placeholder="Descreva detalhadamente o problema encontrado..." required minlength="10"></textarea>
+              </div>
+
+              <div class="campo-grupo campo-marcacao">
+                <label><input type="checkbox" id="ocorrencia-anonimo" /> Registrar de forma anônima (seu nome não aparece para a gestão)</label>
+              </div>
+              <div class="campo-grupo campo-marcacao" id="campo-pedagogico">
+                <label><input type="checkbox" id="ocorrencia-pedagogico" /> Marcar como prioridade pedagógica (exclusivo para professores)</label>
+              </div>
+
+              <div class="campo-grupo">
+                <label class="campo-rotulo"><i class="ti ti-paperclip"></i> Anexo (Foto do Problema — opcional, até 2 MB)</label>
+                <label class="area-upload" for="ocorrencia-imagem">
+                  <i class="ti ti-cloud-upload"></i>
+                  <p id="arquivo-rotulo"><strong>Clique para selecionar uma imagem</strong> ou arraste o arquivo aqui</p>
+                  <input type="file" id="ocorrencia-imagem" accept="image/*" />
+                </label>
+                <div id="previa-area" style="display: none; margin-top: 12px">
+                  <img id="imagem-previa" class="detalhe-imagem" alt="Pré-visualização" />
+                </div>
+              </div>
+
+              <button type="submit" class="botao-enviar"><i class="ti ti-send"></i> Enviar Ocorrência</button>
+            </form>
+          </div>
+        </div>
+        <footer class="rodape">© 2026 SchoolFix — Sistema de Gestão Escolar. Todos os direitos reservados.</footer>
+      </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/nova-ocorrencia.js"></script>
+  </body>
+</html>

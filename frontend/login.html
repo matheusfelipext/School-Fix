@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SchoolFix — Entrar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- tema.js vai no <head> para aplicar o modo escuro antes da página pintar -->
+    <script src="js/tema.js"></script>
+  </head>
+  <body class="login-pagina" data-publica="true">
+    <div class="login-cartao">
+      <div class="login-marca">
+        <div class="marca-icone">SF</div>
+        <span class="marca-nome">SchoolFix</span>
+      </div>
+      <p class="login-titulo">Entrar na plataforma</p>
+      <p class="login-sub">Acesse com seu e-mail institucional</p>
+
+      <div class="login-erro" id="login-erro" role="alert"></div>
+
+      <form id="formulario-login" novalidate>
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" required placeholder="seu.email@escola.edu.br" autocomplete="username" />
+        </div>
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" required placeholder="********" autocomplete="current-password" />
+        </div>
+        <button type="submit" class="botao botao-primario" style="width: 100%">Entrar</button>
+      </form>
+
+      <p class="login-dica">
+        Contas de teste (senha <code>123456</code>):<br />
+        diretor@schoolfix.com · coordenador@schoolfix.com<br />
+        gestor.infra@schoolfix.com · professor@schoolfix.com · aluno@schoolfix.com
+      </p>
+      <p class="login-api" id="login-api" title="Endereço da API que este site está usando"></p>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>

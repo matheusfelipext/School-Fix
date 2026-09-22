@@ -1,0 +1,17 @@
+# Python
+backend/venv/
+venv/
+__pycache__/
+*.pyc
+
+# Segredos — NUNCA versionar
+.env
+backend/.env
+backend/firebase-credenciais.json
+**/*firebase-adminsdk*.json
+
+# Banco local antigo / temporários
+backend/instance/
+.vscode/
+.DS_Store
+Thumbs.db

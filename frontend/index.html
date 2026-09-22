@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SchoolFix — Início</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- tema.js vai no <head> para aplicar o modo escuro antes da página pintar -->
+    <script src="js/tema.js"></script>
+  </head>
+  <body>
+    <div class="aplicacao">
+      <aside class="barra-lateral">
+        <div class="marca">
+          <div class="marca-icone">SF</div>
+          <span class="marca-nome">SchoolFix</span>
+        </div>
+        <!-- A classe "active" e a visibilidade por perfil são definidas em api.js -->
+        <nav class="menu">
+          <a class="menu-item" href="index.html"><i class="ti ti-home"></i>Início</a>
+          <a class="menu-item" href="reclamacoes.html"><i class="ti ti-list"></i>Todas Reclamações</a>
+          <a class="menu-item menu-item-destaque" href="nova-ocorrencia.html"><i class="ti ti-plus"></i>Nova Ocorrência</a>
+          <a class="menu-item" href="chat.html"><i class="ti ti-message-2"></i>Chat Geral</a>
+          <a class="menu-item" href="mensagens.html"><i class="ti ti-mail"></i>Mensagens Diretas</a>
+          <a class="menu-item" href="relatorios.html"><i class="ti ti-chart-bar"></i>Relatórios</a>
+          <a class="menu-item" href="usuarios.html"><i class="ti ti-users"></i>Usuários</a>
+          <a class="menu-item" href="configuracoes.html"><i class="ti ti-settings"></i>Configurações</a>
+        </nav>
+      </aside>
+
+      <div class="principal">
+        <header class="cabecalho">
+          <div class="cabecalho-escola"><i class="ti ti-school"></i> <span id="cabecalho-escola">SchoolFix</span></div>
+          <div class="cabecalho-direita">
+            <div class="notificacoes">
+              <button type="button" class="botao-icone" id="notificacoes-botao" title="Notificações">
+                <i class="ti ti-bell"></i>
+                <span class="notificacoes-contador" id="notificacoes-contador" style="display:none">0</span>
+              </button>
+              <div class="notificacoes-painel" id="notificacoes-painel" style="display:none"></div>
+            </div>
+            <div class="cabecalho-divisor"></div>
+            <div class="usuario-perfil">
+              <div class="avatar" id="cabecalho-avatar">?</div>
+              <div class="usuario-info">
+                <p class="nome" id="cabecalho-nome">Carregando...</p>
+                <p class="cargo" id="cabecalho-cargo">—</p>
+              </div>
+              <button type="button" class="botao-icone" title="Sair" onclick="logout()"><i class="ti ti-logout"></i></button>
+            </div>
+          </div>
+        </header>
+
+        <div class="conteudo">
+
+          <section class="tela ativo" id="tela-inicio">
+            <div class="saudacao-titulo" id="saudacao">Olá!</div>
+            <p class="saudacao-sub">Aqui está o resumo geral das ocorrências e reclamações escolares.</p>
+
+            <div class="indicadores">
+              <div class="cartao indicador">
+                <div class="indicador-topo"><span class="indicador-rotulo">Total de Reclamações</span><i class="ti ti-folder"></i></div>
+                <div class="indicador-valor" id="indicador-total">—</div>
+              </div>
+              <div class="cartao indicador">
+                <div class="indicador-topo"><span class="indicador-rotulo">Pendentes</span><i class="ti ti-clock"></i></div>
+                <div class="indicador-valor" id="indicador-pendentes">—</div>
+              </div>
+              <div class="cartao indicador">
+                <div class="indicador-topo"><span class="indicador-rotulo">Em Análise</span><i class="ti ti-eye"></i></div>
+                <div class="indicador-valor" id="indicador-analise">—</div>
+              </div>
+              <div class="cartao indicador">
+                <div class="indicador-topo"><span class="indicador-rotulo">Resolvidas</span><i class="ti ti-circle-check"></i></div>
+                <div class="indicador-valor" id="indicador-resolvidas">—</div>
+              </div>
+            </div>
+
+            <div class="painel-grade">
+              <div class="cartao">
+                <div class="cartao-titulo-linha">
+                  <p class="cartao-titulo">Reclamações Recentes</p>
+                  <a class="link-acao" href="reclamacoes.html">Ver todas</a>
+                </div>
+                <table>
+                  <thead><tr><th>Título</th><th>Categoria</th><th>Status</th><th>Data</th></tr></thead>
+                  <tbody id="tabela-recentes">
+                    <tr><td colspan="4" class="celula-vazia">Carregando...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="cartao">
+                <p class="cartao-titulo" style="margin-bottom: 20px">Mapeamento por Categoria</p>
+                <div id="mapa-categorias"><p class="celula-vazia">Carregando...</p></div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <footer class="rodape">© 2026 SchoolFix — Sistema de Gestão Escolar. Todos os direitos reservados.</footer>
+      </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/inicio.js"></script>
+  </body>
+</html>
