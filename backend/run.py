@@ -15,8 +15,9 @@ from app.models import COL_USUARIOS  # noqa: E402
 
 app = create_app()
 
+# Popula o banco na primeira execução. Desligue com SEED_AUTOMATICO=0 (ex.: para testar do zero).
 with app.app_context():
-    if repo.contar(COL_USUARIOS) == 0:
+    if os.environ.get("SEED_AUTOMATICO", "1") == "1" and repo.contar(COL_USUARIOS) == 0:
         import seed
         seed.executar(silencioso=False)
 

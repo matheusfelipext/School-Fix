@@ -1,8 +1,14 @@
 """
 seed.py — Popula o Firestore com áreas, usuários, canais e chamados de exemplo.
 
-    python seed.py            cria só o que faltar (idempotente)
-    python seed.py --reset    APAGA as coleções do SchoolFix e recria
+    python seed.py            cria o ESSENCIAL que faltar: contas de teste, áreas, canais,
+                              dados da escola (sem chamados/mensagens de exemplo)
+    python seed.py --exemplos idem + chamados, respostas, mensagens e conversa de exemplo
+    python seed.py --reset    APAGA as coleções do SchoolFix e recria o essencial
+                              (combine com --exemplos para recriar também os exemplos)
+    python seed.py --limpar   APAGA tudo e NÃO recria (banco vazio). Atenção: run.py/wsgi.py
+                              repopulam sozinhos se não houver usuários — para manter vazio,
+                              defina SEED_AUTOMATICO=0 no ambiente (local e/ou Render).
 
 Em modo mock (sem credenciais) o seed só faz sentido dentro do próprio processo;
 use `python run.py` que já chama o seed automaticamente quando o banco está vazio.
@@ -41,8 +47,11 @@ def limpar_tudo():
             repo.excluir(col, d["id"])
 
 
-def executar(silencioso=False):
-    """Cria os dados. Chamado por run.py (banco vazio) e pela linha de comando."""
+def executar(silencioso=False, exemplos=False):
+    """
+    Cria os dados. Chamado por run.py (banco vazio) e pela linha de comando.
+    exemplos=False → só o essencial para conseguir entrar e testar do zero.
+    """
     areas = {}
     for nome in ["Infraestrutura", "Limpeza", "Alimentação", "Coordenação", "Segurança", "TI", "Geral"]:
         areas[nome] = _obter_ou_criar(COL_AREAS, {"nome": nome}, gestor_id=None, gestor_nome=None)
@@ -75,7 +84,7 @@ def executar(silencioso=False):
             "telefone": "(19) 3744-6000", "email_contato": "contato@schoolfix.com",
         }, doc_id=DOC_INSTITUICAO)
 
-    if repo.contar(COL_CHAMADOS) == 0:
+    if exemplos and repo.contar(COL_CHAMADOS) == 0:
         agora = repo.agora()
 
         def chamado(titulo, descricao, categoria, area, status, prioridade, autor, **extra):
@@ -129,6 +138,7 @@ def executar(silencioso=False):
 
     if not silencioso:
         print("\n" + "=" * 52 + "\n  SEED EXECUTADO COM SUCESSO!\n" + "=" * 52)
+        print("Dados de exemplo (chamados, mensagens):", "criados" if exemplos else "não criados (use --exemplos)")
         print("Contas para teste (senha: 123456):")
         for u in repo.listar(COL_USUARIOS, ordenar="perfil"):
             print(f" - {u['perfil']:<12} {u['email']}")
@@ -143,7 +153,12 @@ if __name__ == "__main__":
               "processo roda; execute `python run.py` (ele popula sozinho).")
         sys.exit(0)
     with app.app_context():
+        if "--limpar" in sys.argv:
+            print("Apagando TODAS as coleções do SchoolFix (sem recriar)...")
+            limpar_tudo()
+            print("Banco vazio. Lembre-se de SEED_AUTOMATICO=0 para o servidor não repopular.")
+            sys.exit(0)
         if "--reset" in sys.argv:
             print("Apagando coleções do SchoolFix...")
             limpar_tudo()
-        executar()
+        executar(exemplos="--exemplos" in sys.argv)
